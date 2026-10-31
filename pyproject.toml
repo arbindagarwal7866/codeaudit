@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codeaudit"
+version = "1.0.0"
+description = "Autonomous Codebase Auditor & Refactoring Agent: dependency graph + static analysis + LLM agents"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["networkx>=3.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+codeaudit = "codeaudit.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["codeaudit*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider"

@@ -1,0 +1,25 @@
+key,label,note
+SQL_INJECTION:shopkart.db:find_orders:conn.execute,TP,query concatenated with str(customer_id)
+SQL_INJECTION:shopkart.db:get_user:cur.execute,TP,username from sys.argv/input goes into an f-string query
+CODE_INJECTION:shopkart.reports:evaluate_formula:eval,TP,formula typed by the user is passed to eval
+COMMAND_INJECTION:shopkart.notify:notify_admin:os.system,TP,unknown username is echoed through a shell
+CYCLIC_DEPENDENCY:shopkart.inventory|shopkart.orders,TP,inventory imports orders only for dead restock_value
+INSECURE_DESERIALIZATION:shopkart.orders:OrderManager.restore_session:pickle.loads,TP,session blob is unpickled
+COMMAND_INJECTION:shopkart.orders:OrderManager.export:subprocess.run,TP,filename interpolated into shell=True command
+HARDCODED_SECRET:shopkart.config::SECRET_KEY,TP,live API key committed in config
+WEAK_HASH:shopkart.orders:OrderManager.cache_key:hashlib.md5,FP,md5 only builds an in-memory cache key
+DEEP_NESTING:shopkart.orders:OrderManager.create,TP,5 nested levels inside the loop
+DEAD_CODE:shopkart.inventory:_to_xml,TP,only called by export_xml which is itself dead
+DEAD_CODE:shopkart.inventory:restock_value,TP,never called
+DEEP_NESTING:shopkart.reports:monthly_report,TP,5 nested levels
+DEAD_CODE:shopkart.inventory:export_xml,TP,never called
+DEAD_CODE:shopkart.orders:OrderManager.export,TP,no caller anywhere
+LONG_PARAM_LIST:shopkart.orders:OrderManager.create,TP,6 required positional parameters
+WEAK_HASH:shopkart.auth:password_key:hashlib.sha1,TP,SHA-1 used to store passwords (name contains 'key' which fools the heuristic)
+SQL_INJECTION:shopkart.db:count_rows:conn.execute,FP,every caller uses the default table name
+CODE_INJECTION:shopkart.reports:default_tax_rate:eval,FP,eval of a constant string
+LONG_PARAM_LIST:shopkart.reports:monthly_report,TP,6 required positional parameters
+UNUSED_MODULE:shopkart.legacy,TP,nothing imports legacy.py
+HARDCODED_SECRET:shopkart.config::TOKEN_URL,FP,a URL not a secret
+DEAD_CODE:shopkart.plugins:Actions.handle_refund,FP,called through getattr(self f'handle_{action}')
+SQL_INJECTION:shopkart.db:search_products,FN,query built in helper _like_query (needs inter-procedural data flow)

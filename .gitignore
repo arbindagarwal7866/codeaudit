@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+audit_out/
+.codeaudit_cache/
+.codeaudit_repos/
+demo_copy/
+.DS_Store
+.Rhistory
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.env
